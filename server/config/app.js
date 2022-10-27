@@ -39,7 +39,7 @@ mongodb.once("open", () => {
 let jwtOptions = {};
 jwtOptions.jwtFromRequest = ExtractJWT.fromAuthHeaderAsBearerToken();
 jwtOptions.secretOrKey = DB.Secret;
-//create token by matching user id
+//control how token is exacted 
 let strategy = new JWTStrategy(jwtOptions, (jwt_payload, done) => {
   //find user by id
   User.findById(jwt_payload.id)
