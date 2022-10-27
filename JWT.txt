@@ -1,0 +1,95 @@
+Summary: The @types npm organization is for obtaining type definitions with npm .
+ Using these type definitions is a feature is coming in TypeScript 2.0. 
+This will replace the current projects/tools such as typings and tsd, 
+though these will continue to be supported for some time
+
+Cross-Origin Resource Sharing (CORS) is an HTTP-header based mechanism that allows a 
+server to indicate any origins (domain, scheme, or port) other than 
+its own from which a browser should permit loading resources.
+
+1. to add more packages CORS (Cross-Origin Resource Sharing)
+
+npm install cors --save
+npm install @types/cors --save-dev
+
+dev dependencies packages are not required to project work
+
+npm install jsonwebtoken passport-jwt --save
+
+npm install @types/jsonwebtoken @types/passport-jwt --save-dev
+
+2. after installtion of packages -configure application
+serve-config-app.js
+
+let cors = require("cors");
+
+let passportJWT = require("passport-jwt");
+let JWTStrategy = passportJWT.Strategy;
+let ExtractJWT = passportJWT.ExtractJwt;
+
+let jwtOptions = {};
+jwtOptions.jwtFromRequest = ExtractJWT.fromAuthHeaderAsBearerToken();
+
+
+go to db.js
+add
+  secret: "mysecret"
+
+3. again goto app.js and add
+jwtOptions.secretOrKey = DB.secret;
+
+let strategy = new JWTStrategy(jwtOptions, (jwt_payload, done) => {
+  User.findById(jwt_payload.id)
+    .then((user) => {
+      return done(null, user);
+    })
+    .catch((err) => {
+      return done(null, false);
+    });
+});
+//to find user by token id if found else return user
+
+now activate strategy
+passport.use(strategy);
+
+4. controller --> index.js its just login not routing are  here
+
+//enable JWT
+let jwt = require("jsonwebtoken");
+let DB = require("../config/db");
+
+now modify proocesslogin page
+ const payload = {
+        id: user._id,
+        displayName: user.displayName,
+        username: user.username,
+        email: user.email,
+      };
+
+      const authToken = jwt.sign(payload, DB.Secret, {
+        expiresIn: 604800, // seconds ==1 week
+      });
+
+ res.json({success: true, msg: 'User Logged in Successfully!', user: {
+                id: user._id,
+                displayName: user.displayName,
+                username: user.username,
+                email: user.email
+            }, token: authToken});
+
+
+5. Modify index.js--> processRegistration page
+// if no error exists, then registration is successful
+
+      // redirect the user and authenticate them
+
+      /* TODO - Getting Ready to convert to API
+            res.json({success: true, msg: 'User Registered Successfully!'});
+            */
+
+
+6. modify book.js in controllers
+let jwt = require("jsonwebtoken");
+
+7. routes--book.js
+let jwt = require("jsonwebtoken"); for future use
