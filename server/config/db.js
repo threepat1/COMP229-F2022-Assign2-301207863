@@ -4,7 +4,7 @@
 //Wep app name: https://comp229-f2022-Assign2-30120786.herokuapp.com/employees
 
 module.exports = {
-  URI: "mongodb://127.0.0.1:27017/assign2",
-  // URI: "mongodb+srv://new-comp229:4gSSgLOlGI5sqFYz@cluster0.jbrwwc5.mongodb.net/book_store?retryWrites=true&w=majority",
+  // URI: "mongodb://127.0.0.1:27017/assign2",
+  URI: "mongodb+srv://new-comp229:4gSSgLOlGI5sqFYz@cluster0.jbrwwc5.mongodb.net/Emp?retryWrites=true&w=majority",
   Secret: "SomeSecret",
 };
